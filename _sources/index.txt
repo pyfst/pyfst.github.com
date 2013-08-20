@@ -1,0 +1,95 @@
+========================
+pyfst: OpenFst in Python
+========================
+
+pyfst provides a Python interface to the excellent OpenFst_ library.
+Most of the essential functionality of the library is exposed through a simplified
+API, allowing quick prototyping of algorithms using finite-state methods and
+easy visual debugging of the results obtained by applying FST operations.
+
+pyfst focuses on providing an intuitive interface to the OpenFst API
+and lacks support for advanced functionality such as custom semirings
+and non-vector FST types.
+However, most operations are available for standard transducers
+with log and tropical weights, which should be enough for the majority
+of basic use cases.
+
+.. _OpenFst: http://www.openfst.org
+
+Installation
+------------
+
+#. Install the OpenFst_ library.
+#. ``pyfst`` can be installed using ``pip``::
+
+    pip install pyfst
+
+It is recommended to install Graphviz_ and the `IPython notebook`_ to `immediately 
+visualize`_ the created transducers and inspect the result of the operations.
+
+.. _Graphviz: http://www.graphviz.org/
+.. _IPython notebook: http://ipython.org/ipython-doc/stable/interactive/notebook.html
+.. _immediately visualize: http://nbviewer.ipython.org/3835477/
+
+Basic Usage
+-----------
+
+The following code::
+
+    import fst
+
+    t = fst.Transducer()
+
+    t.add_arc(0, 1, 'a', 'A')
+    t.add_arc(0, 1, 'b', 'B')
+    t.add_arc(1, 2, 'c', 'C')
+
+    t[2].final = True
+
+creates an unweighted `transducer` ``t`` with 3 `states`, 3 `arcs`
+with lowercase `input labels` and uppercase `output labels`,
+and sets the state with id 2 as `final`:
+
+.. image:: _static/example1.png
+
+By default the state with id 0 is set as the `initial` state.
+
+It is also possible to add `weights` on the arcs of the transducer and on the final states.
+For example::
+
+    a = fst.Acceptor()
+    a.add_arc(0, 1, 'x', 0.1)
+    a[1].final = -1
+
+creates a weighted `acceptor` ``a`` (input and output labels are equal)
+with a single arc of tropical weight 0.1 and a final state of weight -1:
+
+.. image:: _static/example2.png
+
+.. Weights
+   table Weight/Arc/+/x/0/1/XTransducer,XAcceptor,XVectorFst
+
+.. Operations
+   .python()/CPlusPlus()
+   with links to this doc/OpenFst doc
+
+.. Symbol Tables
+   created by default for Transducer/Acceptor
+   can be passed as arguments
+
+
+Simple API
+----------
+
+.. automodule:: fst
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Advanced API
+------------
+
+.. automodule:: fst._fst
+    :members:
+    :undoc-members:
+    :show-inheritance:
