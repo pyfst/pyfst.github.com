@@ -50,7 +50,7 @@ creates an unweighted `transducer` ``t`` with 3 `states`, 3 `arcs`
 with lowercase `input labels` and uppercase `output labels`,
 and sets the state with id 2 as `final`:
 
-.. image:: _static/example1.png
+.. image:: static/example1.png
 
 By default the state with id 0 is set as the `initial` state.
 
@@ -64,7 +64,7 @@ For example::
 creates a weighted `acceptor` ``a`` (input and output labels are equal)
 with a single arc of tropical weight 0.1 and a final state of weight -1:
 
-.. image:: _static/example2.png
+.. image:: static/example2.png
 
 .. Weights
    table Weight/Arc/+/x/0/1/XTransducer,XAcceptor,XVectorFst

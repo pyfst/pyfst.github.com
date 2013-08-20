@@ -1,1 +1,1 @@
-http://pyfst.github.com/
+http://pyfst.github.io
