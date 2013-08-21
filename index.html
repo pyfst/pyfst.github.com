@@ -91,7 +91,7 @@ visualize</a> the created transducers and inspect the result of the operations.<
 <p>creates an unweighted <cite>transducer</cite> <tt class="docutils literal"><span class="pre">t</span></tt> with 3 <cite>states</cite>, 3 <cite>arcs</cite>
 with lowercase <cite>input labels</cite> and uppercase <cite>output labels</cite>,
 and sets the state with id 2 as <cite>final</cite>:</p>
-<img alt="_images/example1.png" src="_images/example1.png" />
+<img alt="_images/transducer.png" src="_images/transducer.png" />
 <p>By default the state with id 0 is set as the <cite>initial</cite> state.</p>
 <p>It is also possible to add <cite>weights</cite> on the arcs of the transducer and on the final states.
 For example:</p>
@@ -102,7 +102,281 @@ For example:</p>
 </div>
 <p>creates a weighted <cite>acceptor</cite> <tt class="docutils literal"><span class="pre">a</span></tt> (input and output labels are equal)
 with a single arc of tropical weight 0.1 and a final state of weight -1:</p>
-<img alt="_images/example2.png" src="_images/example2.png" />
+<img alt="_images/acceptor.png" src="_images/acceptor.png" />
+<p>Once a transducer has been created, operations can be applied to it.
+For example, the method <tt class="docutils literal"><span class="pre">a.closure()</span></tt> returns the Kleene closure <tt class="docutils literal"><span class="pre">a*</span></tt>
+of the previous transducer:</p>
+<img alt="_images/acceptor_closure.png" src="_images/acceptor_closure.png" />
+</div>
+<div class="section" id="weights">
+<h2>Weights<a class="headerlink" href="#weights" title="Permalink to this headline">¶</a></h2>
+<p>Two types of weigths are supported: tropical and log weights.
+Their properties are summarized in the table below:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="38%" />
+<col width="14%" />
+<col width="6%" />
+<col width="6%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Semiring</th>
+<th class="head">x ⊕ y</th>
+<th class="head">x ⊗ y</th>
+<th class="head">0</th>
+<th class="head">1</th>
+<th class="head">Prefix</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>tropical</td>
+<td>min(x, y)</td>
+<td>x + y</td>
+<td>∞</td>
+<td>0</td>
+<td>Std</td>
+</tr>
+<tr class="row-odd"><td>log</td>
+<td>-log(e^-x + e^-y)</td>
+<td>x + y</td>
+<td>∞</td>
+<td>0</td>
+<td>Log</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#fst.StdTransducer" title="fst.StdTransducer"><tt class="xref py py-class docutils literal"><span class="pre">fst.StdTransducer</span></tt></a>/<a class="reference internal" href="#fst.LogTransducer" title="fst.LogTransducer"><tt class="xref py py-class docutils literal"><span class="pre">fst.LogTransducer</span></tt></a> create transducers
+with automatic symbol table management and arc label conversion.</p>
+<p><a class="reference internal" href="#fst.StdAcceptor" title="fst.StdAcceptor"><tt class="xref py py-class docutils literal"><span class="pre">fst.StdAcceptor</span></tt></a>/<a class="reference internal" href="#fst.LogAcceptor" title="fst.LogAcceptor"><tt class="xref py py-class docutils literal"><span class="pre">fst.LogAcceptor</span></tt></a> create acceptors
+with identical input and output labels.</p>
+<p>The underlying classes <tt class="xref py py-class docutils literal"><span class="pre">fst.StdVectorFst</span></tt>/<tt class="xref py py-class docutils literal"><span class="pre">fst.LogVectorFst</span></tt> can
+be instantiated without symbol tables and directly use integers for arc labels.</p>
+<p>An existing <tt class="docutils literal"><span class="pre">XVectorFst</span></tt> can be converted to the other semiring <tt class="docutils literal"><span class="pre">Y</span></tt>
+by passing it as an argument to the <tt class="docutils literal"><span class="pre">YVectorFst</span></tt> constructor.</p>
+<p><a class="reference internal" href="#fst.linear_chain" title="fst.linear_chain"><tt class="xref py py-func docutils literal"><span class="pre">fst.linear_chain()</span></tt></a> creates a linear chain transducer from any sequence of strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fst</span><span class="o">.</span><span class="n">linear_chain</span><span class="p">(</span><span class="s">&#39;fst&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/linear_chain.png" src="_images/linear_chain.png" />
+<p>The simplified classes <a class="reference internal" href="#fst.Transducer" title="fst.Transducer"><tt class="xref py py-class docutils literal"><span class="pre">fst.Transducer</span></tt></a>, <a class="reference internal" href="#fst.Acceptor" title="fst.Acceptor"><tt class="xref py py-class docutils literal"><span class="pre">fst.Acceptor</span></tt></a>
+and <a class="reference internal" href="#fst.linear_chain" title="fst.linear_chain"><tt class="xref py py-func docutils literal"><span class="pre">fst.linear_chain()</span></tt></a> take an optional <tt class="docutils literal"><span class="pre">semiring</span></tt> argument
+which is equal to <tt class="docutils literal"><span class="pre">'tropical'</span></tt> by default.</p>
+</div>
+<div class="section" id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<p>Several operations are available on all transducers, as methods of the created objects.
+There are two types of operations: destructive (⟲) like <a class="reference internal" href="#fst._fst.StdVectorFst.connect" title="fst._fst.StdVectorFst.connect"><tt class="xref py py-meth docutils literal"><span class="pre">connect()</span></tt></a>, which
+modify the object, and constructive (☛), like <a class="reference internal" href="#fst._fst.StdVectorFst.reverse" title="fst._fst.StdVectorFst.reverse"><tt class="xref py py-meth docutils literal"><span class="pre">reverse()</span></tt></a>, which return
+a new transducer. Some binary operations also have shortcut names, e.g., <tt class="docutils literal"><span class="pre">a.compose(b)</span> <span class="pre">==</span> <span class="pre">a</span> <span class="pre">&gt;&gt;</span> <span class="pre">b</span></tt>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="9%" />
+<col width="31%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">Short</th>
+<th class="head">C++ API</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.arc_sort_input" title="fst._fst.StdVectorFst.arc_sort_input"><tt class="xref py py-meth docutils literal"><span class="pre">arc_sort_input()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcSortDoc">ArcSort</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.arc_sort_output" title="fst._fst.StdVectorFst.arc_sort_output"><tt class="xref py py-meth docutils literal"><span class="pre">arc_sort_output()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcSortDoc">ArcSort</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.closure" title="fst._fst.StdVectorFst.closure"><tt class="xref py py-meth docutils literal"><span class="pre">closure()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ClosureDoc">Closure</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.closure_plus" title="fst._fst.StdVectorFst.closure_plus"><tt class="xref py py-meth docutils literal"><span class="pre">closure_plus()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ClosureDoc">Closure</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.set_closure" title="fst._fst.StdVectorFst.set_closure"><tt class="xref py py-meth docutils literal"><span class="pre">set_closure()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ClosureDoc">Closure</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.compose" title="fst._fst.StdVectorFst.compose"><tt class="xref py py-meth docutils literal"><span class="pre">compose()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">&gt;&gt;</span></tt></td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ComposeDoc">Compose</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.concatenate" title="fst._fst.StdVectorFst.concatenate"><tt class="xref py py-meth docutils literal"><span class="pre">concatenate()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ConcatDoc">Concat</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.concatenation" title="fst._fst.StdVectorFst.concatenation"><tt class="xref py py-meth docutils literal"><span class="pre">concatenation()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">+</span></tt></td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ConcatDoc">Concat</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.connect" title="fst._fst.StdVectorFst.connect"><tt class="xref py py-meth docutils literal"><span class="pre">connect()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ConnectDoc">Connect</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.determinize" title="fst._fst.StdVectorFst.determinize"><tt class="xref py py-meth docutils literal"><span class="pre">determinize()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/DeterminizeDoc">Determinize</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.difference" title="fst._fst.StdVectorFst.difference"><tt class="xref py py-meth docutils literal"><span class="pre">difference()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">-</span></tt></td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/DifferenceDoc">Difference</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.intersect" title="fst._fst.StdVectorFst.intersect"><tt class="xref py py-meth docutils literal"><span class="pre">intersect()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">&amp;</span></tt></td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/IntersectDoc">Intersect</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.inverse" title="fst._fst.StdVectorFst.inverse"><tt class="xref py py-meth docutils literal"><span class="pre">inverse()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/InvertDoc">Invert</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.invert" title="fst._fst.StdVectorFst.invert"><tt class="xref py py-meth docutils literal"><span class="pre">invert()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/InvertDoc">Invert</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.invert_weights" title="fst._fst.StdVectorFst.invert_weights"><tt class="xref py py-meth docutils literal"><span class="pre">invert_weights()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcMapDoc">ArcMap</a> + InvertWeightMapper</td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.logprob_generate" title="fst._fst.StdVectorFst.logprob_generate"><tt class="xref py py-meth docutils literal"><span class="pre">logprob_generate()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/RandGenDoc">RandGen</a> + LogProbArcSelector</td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.minimize" title="fst._fst.StdVectorFst.minimize"><tt class="xref py py-meth docutils literal"><span class="pre">minimize()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/MinimizeDoc">Minimize</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.plus_map" title="fst._fst.StdVectorFst.plus_map"><tt class="xref py py-meth docutils literal"><span class="pre">plus_map()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcMapDoc">ArcMap</a> + PlusMapper</td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.project_input" title="fst._fst.StdVectorFst.project_input"><tt class="xref py py-meth docutils literal"><span class="pre">project_input()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ProjectDoc">Project</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.project_output" title="fst._fst.StdVectorFst.project_output"><tt class="xref py py-meth docutils literal"><span class="pre">project_output()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ProjectDoc">Project</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.prune" title="fst._fst.StdVectorFst.prune"><tt class="xref py py-meth docutils literal"><span class="pre">prune()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/PruneDoc">Prune</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.push" title="fst._fst.StdVectorFst.push"><tt class="xref py py-meth docutils literal"><span class="pre">push()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/PushDoc">Push</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.push_labels" title="fst._fst.StdVectorFst.push_labels"><tt class="xref py py-meth docutils literal"><span class="pre">push_labels()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/PushDoc">Push</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.push_weights" title="fst._fst.StdVectorFst.push_weights"><tt class="xref py py-meth docutils literal"><span class="pre">push_weights()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/PushDoc">Push</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.random_generate" title="fst._fst.StdVectorFst.random_generate"><tt class="xref py py-meth docutils literal"><span class="pre">random_generate()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/RandGenDoc">RandGen</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.relabel" title="fst._fst.StdVectorFst.relabel"><tt class="xref py py-meth docutils literal"><span class="pre">relabel()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/RelabelDoc">Relabel</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.remove_epsilon" title="fst._fst.StdVectorFst.remove_epsilon"><tt class="xref py py-meth docutils literal"><span class="pre">remove_epsilon()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/RmEpsilonDoc">RmEpsilon</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.remove_weights" title="fst._fst.StdVectorFst.remove_weights"><tt class="xref py py-meth docutils literal"><span class="pre">remove_weights()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcMapDoc">ArcMap</a> + RmWeightMapper</td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.replace" title="fst._fst.StdVectorFst.replace"><tt class="xref py py-meth docutils literal"><span class="pre">replace()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ReplaceDoc">Replace</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.reverse" title="fst._fst.StdVectorFst.reverse"><tt class="xref py py-meth docutils literal"><span class="pre">reverse()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ReverseDoc">Reverse</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.reweight" title="fst._fst.StdVectorFst.reweight"><tt class="xref py py-meth docutils literal"><span class="pre">reweight()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ReweightDoc">Reweight</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.shortest_distance" title="fst._fst.StdVectorFst.shortest_distance"><tt class="xref py py-meth docutils literal"><span class="pre">shortest_distance()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ShortestDistanceDoc">ShortestDistance</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.shortest_path" title="fst._fst.StdVectorFst.shortest_path"><tt class="xref py py-meth docutils literal"><span class="pre">shortest_path()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ShortestPathDoc">ShortestPath</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.times_map" title="fst._fst.StdVectorFst.times_map"><tt class="xref py py-meth docutils literal"><span class="pre">times_map()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/ArcMapDoc">ArcMap</a> + TimesMapper</td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.top_sort" title="fst._fst.StdVectorFst.top_sort"><tt class="xref py py-meth docutils literal"><span class="pre">top_sort()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/TopSortDoc">TopSort</a></td>
+<td>⟲</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.uniform_generate" title="fst._fst.StdVectorFst.uniform_generate"><tt class="xref py py-meth docutils literal"><span class="pre">uniform_generate()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/RandGenDoc">RandGen</a> + UniformArcSelector</td>
+<td>☛</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#fst._fst.StdVectorFst.union" title="fst._fst.StdVectorFst.union"><tt class="xref py py-meth docutils literal"><span class="pre">union()</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">|</span></tt></td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/UnionDoc">Union</a></td>
+<td>☛</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#fst._fst.StdVectorFst.set_union" title="fst._fst.StdVectorFst.set_union"><tt class="xref py py-meth docutils literal"><span class="pre">set_union()</span></tt></a></td>
+<td>&nbsp;</td>
+<td><a class="reference external" href="http://www.openfst.org/twiki/bin/view/FST/UnionDoc">Union</a></td>
+<td>⟲</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="module-fst">
 <span id="simple-api"></span><h2>Simple API<a class="headerlink" href="#module-fst" title="Permalink to this headline">¶</a></h2>
@@ -1033,7 +1307,8 @@ potentials in direction of initial (default) or final state</p>
 
 <h3>Useful links</h3>
 <ul>
-    <li><a href="http://github.com/vchahun/pyfst">Source on Github</a></li>
+    <li><a href="http://github.com/vchahun/pyfst">pyfst @ Github</a></li>
+    <li><a href="https://pypi.python.org/pypi/pyfst">pyfst @ PyPI</a></li>
     <li><a href="http://www.openfst.org">OpenFst documentation</a></li>
 </ul>
 <div id="searchbox" style="display: none">
