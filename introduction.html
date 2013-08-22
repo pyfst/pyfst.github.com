@@ -1,0 +1,219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; pyfst 0.2.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyfst 0.2.1 documentation" href="index.html" />
+    <link rel="next" title="User Guide" href="user_guide.html" />
+    <link rel="prev" title="pyfst: OpenFst in Python" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="user_guide.html" title="User Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="pyfst: OpenFst in Python"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyfst 0.2.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="openfst">
+<h2>OpenFst<a class="headerlink" href="#openfst" title="Permalink to this headline">¶</a></h2>
+<p>OpenFst is a powerful and mature library for implementing finite-state algorithms. This includes
+a lot of important problems in NLP such as tokenization, morphological analysis,
+spellchecking, HMMs, and even phrase-base machine translation.</p>
+<p>Unfortunately, developing algorithms with the C++ API can be frustrating and time-consuming,
+in particular due to the long compile time caused by extensive use of templates.</p>
+<p>Let&#8217;s assume that you have successfully written and compiled the following C++ program (<tt class="docutils literal"><span class="pre">example.cpp</span></tt>)
+to create a beautiful logo for OpenFst:</p>
+<div class="highlight-python"><pre>#include &lt;fst/fstlib.h&gt;
+
+int main() {
+  fst::StdVectorFst a;
+  a.AddState();
+  a.SetStart(0);
+  a.AddArc(0, fst::StdArc(1, 1, 0, 1));
+  a.AddState();
+  a.SetFinal(1, 0);
+
+  fst::Closure(&amp;a, fst::CLOSURE_STAR);
+
+  fst::StdVectorFst b;
+  b.AddState();
+  b.SetStart(0);
+  b.AddArc(0, fst::StdArc(2, 2, 0, 1));
+  b.AddState();
+  b.SetFinal(1, 0);
+
+  fst::Concat(&amp;a, b);
+  fst::Minimize(&amp;a);
+  a.Write("/dev/stdout");
+}</pre>
+</div>
+<p>You can now use a symbol table to map 1 to &#8220;Open&#8221; and 2 to &#8220;Fst&#8221;:</p>
+<div class="highlight-python"><pre>&lt;eps&gt; 0
+Open 1
+Fst 2</pre>
+</div>
+<p>And finally run:</p>
+<div class="highlight-python"><pre>./example | fstdraw --isymbols=syms.txt --osymbols=syms.txt | dot -Tsvg</pre>
+</div>
+<p>to produce a graphical representation of the result.</p>
+<p>Alas, all you get is this puzzling error message:</p>
+<div class="highlight-python"><pre>FATAL: FST is not deterministic</pre>
+</div>
+<p>Which reminds you that <tt class="docutils literal"><span class="pre">fst::Minimize</span></tt> requires a determistic FST.
+After going back to the OpenFst documentation, you may realize that you need an additional ε removal step:</p>
+<div class="highlight-python"><pre>fst::RmEpsilon(&amp;a);
+fst::Minimize(&amp;a);</pre>
+</div>
+<p>and you now have to recompile your code and run all the sequence of commands
+to finally obtain the desired result.</p>
+</div>
+<div class="section" id="pyfst">
+<h2>pyfst<a class="headerlink" href="#pyfst" title="Permalink to this headline">¶</a></h2>
+<p>pyfst helps you at various levels to write better programs with OpenFst.</p>
+<ol class="arabic">
+<li><p class="first">FST creation is simplified (behind the scenes, a symbol table is used and states are
+automatically added when mentioned):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">Acceptor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">add_arc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">final</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">&lt;StdVectorFst with 2 states&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">fst</span><span class="o">.</span><span class="n">linear_chain</span><span class="p">((</span><span class="s">&#39;fst&#39;</span><span class="p">),</span> <span class="n">syms</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">isyms</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Operations can be easily inspected:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">closure</span><span class="p">)</span>
+<span class="go">closure() → Kleene closure of the transducer</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Common operations are abbreviated:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">closure</span><span class="p">()</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">pyfst warns you when you apply an invalid operation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">minimize</span><span class="p">()</span>
+<span class="go">ValueError: transducer is not input deterministic</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, if you use the <a class="reference external" href="http://ipython.org/ipython-doc/stable/interactive/notebook.html">IPython notebook</a>, you can directly inspect your FSTs graphically:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<img alt="_images/intro.png" src="_images/intro.png" />
+<p>which helps quickly debug errors in your program.</p>
+<p>pyfst does not support all the advanced functionality of OpenFst such as implementing
+your own semirings, and will never be as fast as pure C++ code, but we believe it is
+a very useful tool for quickly prototyping complex finite-state applications.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/pyfst.png" alt="Logo"/>
+  </a>
+</p>
+<p>
+    pyfst wraps the <a href="http://www.openfst.org">OpenFst</a> library in Python,
+    making its excellent C++ API easily accessible for quick development and prototyping
+</p>
+
+<h3>Useful links</h3>
+<ul>
+    <li><a href="http://github.com/vchahun/pyfst">pyfst @ Github</a></li>
+    <li><a href="https://pypi.python.org/pypi/pyfst">pyfst @ PyPI</a></li>
+    <li><a href="http://www.openfst.org">OpenFst documentation</a></li>
+</ul>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#openfst">OpenFst</a></li>
+<li><a class="reference internal" href="#pyfst">pyfst</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">pyfst: OpenFst in Python</a></li>
+      <li>Next: <a href="user_guide.html" title="next chapter">User Guide</a></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Victor Chahuneau.
+    </div>
+  </body>
+</html>

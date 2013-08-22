@@ -7,6 +7,25 @@ Most of the essential functionality of the library is exposed through a simplifi
 API, allowing quick prototyping of algorithms using finite-state methods and
 easy visual debugging of the results obtained by applying FST operations.
 
+For example, one might write the following code to produce the pyfst logo::
+
+    import fst
+
+    # Create a first linear chain for 'py', and take its Kleen closure
+    a = fst.linear_chain(('py',)).closure()
+
+    # Create a second acceptor for 'fst'
+    b = fst.Acceptor(a.isyms)
+    b.add_arc(0, 1, 'fst')
+    b[1].final = True
+
+    # Concatenate the two transducers
+    c = a + b
+
+    # Remove ε-transitions and minimize
+    c.remove_epsilon()
+    c.minimize()
+
 pyfst focuses on providing an intuitive interface to the OpenFst API
 and lacks support for advanced functionality such as custom semirings
 and non-vector FST types.
@@ -16,197 +35,13 @@ of basic use cases.
 
 .. _OpenFst: http://www.openfst.org
 
-Installation
-------------
 
-#. Install the OpenFst_ library.
-#. ``pyfst`` can be installed using ``pip``::
+Documentation
+-------------
 
-    pip install pyfst
-
-It is recommended to install Graphviz_ and the `IPython notebook`_ to `immediately 
-visualize`_ the created transducers and inspect the result of the operations.
-
-.. _Graphviz: http://www.graphviz.org/
-.. _IPython notebook: http://ipython.org/ipython-doc/stable/interactive/notebook.html
-.. _immediately visualize: http://nbviewer.ipython.org/3835477/
-
-Basic Usage
------------
-
-The following code::
-
-    import fst
-
-    t = fst.Transducer()
-
-    t.add_arc(0, 1, 'a', 'A')
-    t.add_arc(0, 1, 'b', 'B')
-    t.add_arc(1, 2, 'c', 'C')
-
-    t[2].final = True
-
-creates an unweighted `transducer` ``t`` with 3 `states`, 3 `arcs`
-with lowercase `input labels` and uppercase `output labels`,
-and sets the state with id 2 as `final`:
-
-.. image:: images/transducer.png
-
-By default the state with id 0 is set as the `initial` state.
-
-It is also possible to add `weights` on the arcs of the transducer and on the final states.
-For example::
-
-    a = fst.Acceptor()
-    a.add_arc(0, 1, 'x', 0.1)
-    a[1].final = -1
-
-creates a weighted `acceptor` ``a`` (input and output labels are equal)
-with a single arc of tropical weight 0.1 and a final state of weight -1:
-
-.. image:: images/acceptor.png
-
-Once a transducer has been created, operations can be applied to it.
-For example, the method ``a.closure()`` returns the Kleene closure ``a*``
-of the previous transducer:
-
-.. image:: images/acceptor_closure.png
-
-Weights
--------
-
-Two types of weigths are supported: tropical and log weights.
-Their properties are summarized in the table below:
-
-+----------+-------------------+-------+---+---+--------+
-| Semiring | x ⊕ y             | x ⊗ y | 0 | 1 | Prefix |
-+==========+===================+=======+===+===+========+
-| tropical | min(x, y)         | x + y | ∞ | 0 | Std    |
-+----------+-------------------+-------+---+---+--------+
-| log      | -log(e^-x + e^-y) | x + y | ∞ | 0 | Log    |
-+----------+-------------------+-------+---+---+--------+
-
-:class:`fst.StdTransducer`/:class:`fst.LogTransducer` create transducers
-with automatic symbol table management and arc label conversion.
-
-:class:`fst.StdAcceptor`/:class:`fst.LogAcceptor` create acceptors
-with identical input and output labels.
-
-The underlying classes :class:`fst.StdVectorFst`/:class:`fst.LogVectorFst` can
-be instantiated without symbol tables and directly use integers for arc labels.
-
-An existing ``XVectorFst`` can be converted to the other semiring ``Y``
-by passing it as an argument to the ``YVectorFst`` constructor.
-
-:func:`fst.linear_chain` creates a linear chain transducer from any sequence of strings::
-
-    fst.linear_chain('fst')
-
-.. image:: images/linear_chain.png
-
-The simplified classes :class:`fst.Transducer`, :class:`fst.Acceptor`
-and :func:`fst.linear_chain` take an optional ``semiring`` argument
-which is equal to ``'tropical'`` by default.
-
-
-Operations
-----------
-
-Several operations are available on all transducers, as methods of the created objects.
-There are two types of operations: destructive (⟲) like :meth:`~fst._fst.StdVectorFst.connect`, which 
-modify the object, and constructive (☛), like :meth:`~fst._fst.StdVectorFst.reverse`, which return
-a new transducer. Some binary operations also have shortcut names, e.g., ``a.compose(b) == a >> b``.
-
-=================================================  =========  ===============================  ==========
-  Method                                             Short      C++ API                          Type
-=================================================  =========  ===============================  ==========
-:meth:`~fst._fst.StdVectorFst.arc_sort_input`                  ArcSort_                          ⟲
-:meth:`~fst._fst.StdVectorFst.arc_sort_output`                 ArcSort_                          ⟲
-:meth:`~fst._fst.StdVectorFst.closure`                         Closure_                          ☛
-:meth:`~fst._fst.StdVectorFst.closure_plus`                    Closure_                          ☛
-:meth:`~fst._fst.StdVectorFst.set_closure`                     Closure_                          ⟲
-:meth:`~fst._fst.StdVectorFst.compose`               ``>>``    Compose_                          ☛
-:meth:`~fst._fst.StdVectorFst.concatenate`                     Concat_                           ⟲
-:meth:`~fst._fst.StdVectorFst.concatenation`         ``+``     Concat_                           ☛
-:meth:`~fst._fst.StdVectorFst.connect`                         Connect_                          ⟲
-:meth:`~fst._fst.StdVectorFst.determinize`                     Determinize_                      ☛
-:meth:`~fst._fst.StdVectorFst.difference`            ``-``     Difference_                       ☛
-:meth:`~fst._fst.StdVectorFst.intersect`             ``&``     Intersect_                        ☛
-:meth:`~fst._fst.StdVectorFst.inverse`                         Invert_                           ☛
-:meth:`~fst._fst.StdVectorFst.invert`                          Invert_                           ⟲
-:meth:`~fst._fst.StdVectorFst.invert_weights`                  ArcMap_ + InvertWeightMapper      ☛
-:meth:`~fst._fst.StdVectorFst.logprob_generate`                RandGen_ + LogProbArcSelector     ☛
-:meth:`~fst._fst.StdVectorFst.minimize`                        Minimize_                         ⟲
-:meth:`~fst._fst.StdVectorFst.plus_map`                        ArcMap_ + PlusMapper              ☛
-:meth:`~fst._fst.StdVectorFst.project_input`                   Project_                          ⟲
-:meth:`~fst._fst.StdVectorFst.project_output`                  Project_                          ⟲
-:meth:`~fst._fst.StdVectorFst.prune`                           Prune_                            ⟲
-:meth:`~fst._fst.StdVectorFst.push`                            Push_                             ☛
-:meth:`~fst._fst.StdVectorFst.push_labels`                     Push_                             ☛
-:meth:`~fst._fst.StdVectorFst.push_weights`                    Push_                             ☛
-:meth:`~fst._fst.StdVectorFst.random_generate`                 RandGen_                          ☛
-:meth:`~fst._fst.StdVectorFst.relabel`                         Relabel_                          ⟲
-:meth:`~fst._fst.StdVectorFst.remove_epsilon`                  RmEpsilon_                        ⟲
-:meth:`~fst._fst.StdVectorFst.remove_weights`                  ArcMap_ + RmWeightMapper          ☛
-:meth:`~fst._fst.StdVectorFst.replace`                         Replace_                          ☛
-:meth:`~fst._fst.StdVectorFst.reverse`                         Reverse_                          ☛
-:meth:`~fst._fst.StdVectorFst.reweight`                        Reweight_                         ⟲
-:meth:`~fst._fst.StdVectorFst.shortest_distance`               ShortestDistance_                 ☛
-:meth:`~fst._fst.StdVectorFst.shortest_path`                   ShortestPath_                     ☛
-:meth:`~fst._fst.StdVectorFst.times_map`                       ArcMap_ + TimesMapper             ☛
-:meth:`~fst._fst.StdVectorFst.top_sort`                        TopSort_                          ⟲
-:meth:`~fst._fst.StdVectorFst.uniform_generate`                RandGen_ + UniformArcSelector     ☛
-:meth:`~fst._fst.StdVectorFst.union`                 ``|``     Union_                            ☛
-:meth:`~fst._fst.StdVectorFst.set_union`                       Union_                            ⟲
-=================================================  =========  ===============================  ==========
-
-.. _ArcMap: http://www.openfst.org/twiki/bin/view/FST/ArcMapDoc
-.. _ArcSort: http://www.openfst.org/twiki/bin/view/FST/ArcSortDoc
-.. _Closure: http://www.openfst.org/twiki/bin/view/FST/ClosureDoc
-.. _Compose: http://www.openfst.org/twiki/bin/view/FST/ComposeDoc
-.. _Concat: http://www.openfst.org/twiki/bin/view/FST/ConcatDoc
-.. _Connect: http://www.openfst.org/twiki/bin/view/FST/ConnectDoc
-.. _Determinize: http://www.openfst.org/twiki/bin/view/FST/DeterminizeDoc
-.. _Difference: http://www.openfst.org/twiki/bin/view/FST/DifferenceDoc
-.. _Intersect: http://www.openfst.org/twiki/bin/view/FST/IntersectDoc
-.. _Invert: http://www.openfst.org/twiki/bin/view/FST/InvertDoc
-.. _Minimize: http://www.openfst.org/twiki/bin/view/FST/MinimizeDoc
-.. _Project: http://www.openfst.org/twiki/bin/view/FST/ProjectDoc
-.. _Prune: http://www.openfst.org/twiki/bin/view/FST/PruneDoc
-.. _Push: http://www.openfst.org/twiki/bin/view/FST/PushDoc
-.. _RandGen: http://www.openfst.org/twiki/bin/view/FST/RandGenDoc
-.. _Relabel: http://www.openfst.org/twiki/bin/view/FST/RelabelDoc
-.. _RmEpsilon: http://www.openfst.org/twiki/bin/view/FST/RmEpsilonDoc
-.. _Replace: http://www.openfst.org/twiki/bin/view/FST/ReplaceDoc
-.. _Reverse: http://www.openfst.org/twiki/bin/view/FST/ReverseDoc
-.. _Reweight: http://www.openfst.org/twiki/bin/view/FST/ReweightDoc
-.. _ShortestDistance: http://www.openfst.org/twiki/bin/view/FST/ShortestDistanceDoc
-.. _ShortestPath: http://www.openfst.org/twiki/bin/view/FST/ShortestPathDoc
-.. _TopSort: http://www.openfst.org/twiki/bin/view/FST/TopSortDoc
-.. _Union: http://www.openfst.org/twiki/bin/view/FST/UnionDoc
-
-.. Symbol Tables
-   created by default for Transducer/Acceptor
-   can be passed as arguments
-
-.. Transducer creation and access
-   constructors: XTransducer vs XAcceptor vs XVectorFst,linear_chain
-   readers: read_x
-   arc/state iterators, paths()
-
-
-Simple API
-----------
-
-.. automodule:: fst
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-Advanced API
-------------
-
-.. automodule:: fst._fst
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. toctree::
+   :maxdepth: 2
+   
+   introduction
+   user_guide
+   api

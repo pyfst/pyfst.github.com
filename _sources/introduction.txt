@@ -1,0 +1,107 @@
+Introduction
+============
+
+OpenFst
+-------
+
+OpenFst is a powerful and mature library for implementing finite-state algorithms. This includes
+a lot of important problems in NLP such as tokenization, morphological analysis,
+spellchecking, HMMs, and even phrase-base machine translation.
+
+Unfortunately, developing algorithms with the C++ API can be frustrating and time-consuming,
+in particular due to the long compile time caused by extensive use of templates.
+
+Let's assume that you have successfully written and compiled the following C++ program (``example.cpp``)
+to create a beautiful logo for OpenFst::
+
+    #include <fst/fstlib.h>
+
+    int main() {
+      fst::StdVectorFst a;
+      a.AddState();
+      a.SetStart(0);
+      a.AddArc(0, fst::StdArc(1, 1, 0, 1));
+      a.AddState();
+      a.SetFinal(1, 0);
+
+      fst::Closure(&a, fst::CLOSURE_STAR);
+
+      fst::StdVectorFst b;
+      b.AddState();
+      b.SetStart(0);
+      b.AddArc(0, fst::StdArc(2, 2, 0, 1));
+      b.AddState();
+      b.SetFinal(1, 0);
+
+      fst::Concat(&a, b);
+      fst::Minimize(&a);
+      a.Write("/dev/stdout");
+    }
+
+You can now use a symbol table to map 1 to "Open" and 2 to "Fst"::
+
+    <eps> 0
+    Open 1
+    Fst 2
+
+And finally run::
+
+    ./example | fstdraw --isymbols=syms.txt --osymbols=syms.txt | dot -Tsvg
+
+to produce a graphical representation of the result.
+
+Alas, all you get is this puzzling error message::
+
+    FATAL: FST is not deterministic
+
+Which reminds you that ``fst::Minimize`` requires a determistic FST.
+After going back to the OpenFst documentation, you may realize that you need an additional ε removal step::
+
+    fst::RmEpsilon(&a);
+    fst::Minimize(&a);
+
+and you now have to recompile your code and run all the sequence of commands
+to finally obtain the desired result.
+
+pyfst
+-----
+
+pyfst helps you at various levels to write better programs with OpenFst.
+
+#. FST creation is simplified (behind the scenes, a symbol table is used and states are
+   automatically added when mentioned)::
+
+    >>> a = fst.Acceptor()
+    >>> a.add_arc(0, 1, 'py')
+    >>> a[1].final = True
+    >>> a
+    <StdVectorFst with 2 states>
+
+    >>> b = fst.linear_chain(('fst'), syms=a.isyms)
+
+#. Operations can be easily inspected::
+   
+    >>> help(b.closure)
+    closure() → Kleene closure of the transducer
+
+#. Common operations are abbreviated::
+
+    >>> c = a.closure() + b
+
+#. pyfst warns you when you apply an invalid operation::
+
+    >>> c.minimize()
+    ValueError: transducer is not input deterministic
+
+#. Finally, if you use the `IPython notebook`_, you can directly inspect your FSTs graphically::
+
+   >>> c
+.. image:: images/intro.png
+
+which helps quickly debug errors in your program.
+
+.. _IPython notebook: http://ipython.org/ipython-doc/stable/interactive/notebook.html
+
+pyfst does not support all the advanced functionality of OpenFst such as implementing
+your own semirings, and will never be as fast as pure C++ code, but we believe it is
+a very useful tool for quickly prototyping complex finite-state applications.

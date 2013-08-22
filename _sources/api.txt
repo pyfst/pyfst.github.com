@@ -1,0 +1,18 @@
+API
+===
+
+Simple API
+----------
+
+.. automodule:: fst
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Advanced API
+------------
+
+.. automodule:: fst._fst
+    :members:
+    :undoc-members:
+    :show-inheritance:

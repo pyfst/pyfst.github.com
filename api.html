@@ -1,0 +1,1021 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API &mdash; pyfst 0.2.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyfst 0.2.1 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">pyfst 0.2.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-fst">
+<span id="simple-api"></span><h2>Simple API<a class="headerlink" href="#module-fst" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="fst.Acceptor">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">Acceptor</tt><a class="headerlink" href="#fst.Acceptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Acceptor(syms=None, semiring=&#8217;tropical&#8217;) -&gt; acceptor from the desired semiring</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fst.LogAcceptor">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">LogAcceptor</tt><big>(</big><em>syms=None</em><big>)</big><a class="headerlink" href="#fst.LogAcceptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fst.LogTransducer" title="fst.LogTransducer"><tt class="xref py py-class docutils literal"><span class="pre">fst.LogTransducer</span></tt></a></p>
+<dl class="method">
+<dt id="fst.LogAcceptor.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>src</em>, <em>tgt</em>, <em>label</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst.LogAcceptor.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.add_arc(int source, int dest, label, weight=None):
+add an arc source-&gt;dest labeled with label and weighted with weight</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst.LogTransducer">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">LogTransducer</tt><big>(</big><em>isyms=None</em>, <em>osyms=None</em><big>)</big><a class="headerlink" href="#fst.LogTransducer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fst._fst.LogVectorFst" title="fst._fst.LogVectorFst"><tt class="xref py py-class docutils literal"><span class="pre">fst._fst.LogVectorFst</span></tt></a></p>
+<dl class="method">
+<dt id="fst.LogTransducer.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>src</em>, <em>tgt</em>, <em>ilabel</em>, <em>olabel</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst.LogTransducer.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.add_arc(int source, int dest, ilabel, olabel, weight=None):
+add an arc source-&gt;dest labeled with labels ilabel:olabel and weighted with weight</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst.StdAcceptor">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">StdAcceptor</tt><big>(</big><em>syms=None</em><big>)</big><a class="headerlink" href="#fst.StdAcceptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fst.StdTransducer" title="fst.StdTransducer"><tt class="xref py py-class docutils literal"><span class="pre">fst.StdTransducer</span></tt></a></p>
+<dl class="method">
+<dt id="fst.StdAcceptor.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>src</em>, <em>tgt</em>, <em>label</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst.StdAcceptor.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.add_arc(int source, int dest, label, weight=None):
+add an arc source-&gt;dest labeled with label and weighted with weight</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst.StdTransducer">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">StdTransducer</tt><big>(</big><em>isyms=None</em>, <em>osyms=None</em><big>)</big><a class="headerlink" href="#fst.StdTransducer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fst._fst.StdVectorFst" title="fst._fst.StdVectorFst"><tt class="xref py py-class docutils literal"><span class="pre">fst._fst.StdVectorFst</span></tt></a></p>
+<dl class="method">
+<dt id="fst.StdTransducer.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>src</em>, <em>tgt</em>, <em>ilabel</em>, <em>olabel</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst.StdTransducer.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.add_arc(int source, int dest, ilabel, olabel, weight=None):
+add an arc source-&gt;dest labeled with labels ilabel:olabel and weighted with weight</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst.Transducer">
+<em class="property">class </em><tt class="descclassname">fst.</tt><tt class="descname">Transducer</tt><a class="headerlink" href="#fst.Transducer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Transducer(isyms=None, osyms=None, semiring=&#8217;tropical&#8217;) -&gt; transducer
+from the desired semiring</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fst.linear_chain">
+<tt class="descclassname">fst.</tt><tt class="descname">linear_chain</tt><big>(</big><em>text</em>, <em>syms=None</em><big>)</big> &rarr; linear chain acceptor for the given input text<a class="headerlink" href="#fst.linear_chain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fst._fst">
+<span id="advanced-api"></span><h2>Advanced API<a class="headerlink" href="#module-fst._fst" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="fst._fst.LogArc">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">LogArc</tt><a class="headerlink" href="#fst._fst.LogArc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.LogArc.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.LogArc.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.LogWeight" title="fst._fst.LogWeight"><tt class="xref py py-class docutils literal"><span class="pre">LogWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogArc.ilabel">
+<tt class="descname">ilabel</tt><a class="headerlink" href="#fst._fst.LogArc.ilabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogArc.nextstate">
+<tt class="descname">nextstate</tt><a class="headerlink" href="#fst._fst.LogArc.nextstate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogArc.olabel">
+<tt class="descname">olabel</tt><a class="headerlink" href="#fst._fst.LogArc.olabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogArc.weight">
+<tt class="descname">weight</tt><a class="headerlink" href="#fst._fst.LogArc.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.LogState">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">LogState</tt><a class="headerlink" href="#fst._fst.LogState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.LogState.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.LogState.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.LogWeight" title="fst._fst.LogWeight"><tt class="xref py py-class docutils literal"><span class="pre">LogWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogState.arcs">
+<tt class="descname">arcs</tt><a class="headerlink" href="#fst._fst.LogState.arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>state.arcs: all the arcs starting from this state</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogState.final">
+<tt class="descname">final</tt><a class="headerlink" href="#fst._fst.LogState.final" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogState.initial">
+<tt class="descname">initial</tt><a class="headerlink" href="#fst._fst.LogState.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogState.stateid">
+<tt class="descname">stateid</tt><a class="headerlink" href="#fst._fst.LogState.stateid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.LogVectorFst">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">LogVectorFst</tt><a class="headerlink" href="#fst._fst.LogVectorFst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">fst._fst._Fst</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.LogVectorFst.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.LogWeight" title="fst._fst.LogWeight"><tt class="xref py py-class docutils literal"><span class="pre">LogWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.acceptor">
+<tt class="descname">acceptor</tt><a class="headerlink" href="#fst._fst.LogVectorFst.acceptor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>int source</em>, <em>int dest</em>, <em>int ilabel</em>, <em>int olabel</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>add an arc source-&gt;dest labeled with labels ilabel:olabel and weighted with weight</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.add_state">
+<tt class="descname">add_state</tt><big>(</big><big>)</big> &rarr; new state<a class="headerlink" href="#fst._fst.LogVectorFst.add_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.arc_sort_input">
+<tt class="descname">arc_sort_input</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.arc_sort_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.arc_sort_input(): sort the input arcs of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.arc_sort_output">
+<tt class="descname">arc_sort_output</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.arc_sort_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.arc_sort_output(): sort the output arcs of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.closure">
+<tt class="descname">closure</tt><big>(</big><big>)</big> &rarr; Kleene closure of the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.closure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.closure_plus">
+<tt class="descname">closure_plus</tt><big>(</big><big>)</big> &rarr; Kleen plus closure (X+ = XX*) of the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.closure_plus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.compose">
+<tt class="descname">compose</tt><big>(</big><em>LogVectorFst other</em><big>)</big> &rarr; composed transducer<a class="headerlink" href="#fst._fst.LogVectorFst.compose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst &gt;&gt; other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.concatenate">
+<tt class="descname">concatenate</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.concatenate(LogVectorFst other): modify to the concatenation
+of the two transducers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.concatenation">
+<tt class="descname">concatenation</tt><big>(</big><em>LogVectorFst other</em><big>)</big> &rarr; concatenation of the two transducers<a class="headerlink" href="#fst._fst.LogVectorFst.concatenation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst + other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.connect(): removes states and arcs that are not on successful paths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big> &rarr; a copy of the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.determinize">
+<tt class="descname">determinize</tt><big>(</big><big>)</big> &rarr; determinized transducer<a class="headerlink" href="#fst._fst.LogVectorFst.determinize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.difference">
+<tt class="descname">difference</tt><big>(</big><em>LogVectorFst other</em><big>)</big> &rarr; difference of the two transducers<a class="headerlink" href="#fst._fst.LogVectorFst.difference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst - other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.draw">
+<tt class="descname">draw</tt><big>(</big><em>SymbolTable isyms=None</em>, <em>SymbolTable osyms=None</em>, <em>SymbolTable ssyms=None</em><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>-&gt; dot format representation of the transducer</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.input_deterministic">
+<tt class="descname">input_deterministic</tt><a class="headerlink" href="#fst._fst.LogVectorFst.input_deterministic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.intersect">
+<tt class="descname">intersect</tt><big>(</big><em>LogVectorFst other</em><big>)</big> &rarr; intersection of the two acceptors<a class="headerlink" href="#fst._fst.LogVectorFst.intersect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst &amp; other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.inverse">
+<tt class="descname">inverse</tt><big>(</big><big>)</big> &rarr; inverse of the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.inverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.invert">
+<tt class="descname">invert</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.invert(): modify to the inverse of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.invert_weights">
+<tt class="descname">invert_weights</tt><big>(</big><big>)</big> &rarr; transducer with inverted weights<a class="headerlink" href="#fst._fst.LogVectorFst.invert_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.isyms">
+<tt class="descname">isyms</tt><a class="headerlink" href="#fst._fst.LogVectorFst.isyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.logprob_generate">
+<tt class="descname">logprob_generate</tt><big>(</big><em>n_path=1</em><big>)</big> &rarr; n_path random paths<a class="headerlink" href="#fst._fst.LogVectorFst.logprob_generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>sampled according to weights assumed to encode log probabilities</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.minimize">
+<tt class="descname">minimize</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.minimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.minimize(): minimize the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.num_arcs">
+<tt class="descname">num_arcs</tt><big>(</big><big>)</big> &rarr; total number of arcs in the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.num_arcs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.osyms">
+<tt class="descname">osyms</tt><a class="headerlink" href="#fst._fst.LogVectorFst.osyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.output_deterministic">
+<tt class="descname">output_deterministic</tt><a class="headerlink" href="#fst._fst.LogVectorFst.output_deterministic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.paths">
+<tt class="descname">paths</tt><big>(</big><big>)</big> &rarr; iterator over all the paths in the transducer<a class="headerlink" href="#fst._fst.LogVectorFst.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.plus_map">
+<tt class="descname">plus_map</tt><big>(</big><em>value</em><big>)</big> &rarr; transducer with weights equal to the original weights<a class="headerlink" href="#fst._fst.LogVectorFst.plus_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>plus the given value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.project_input">
+<tt class="descname">project_input</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.project_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.project_input(): project the transducer on the input side</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.project_output">
+<tt class="descname">project_output</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.project_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.project_output(): project the transducer on the output side</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.prune">
+<tt class="descname">prune</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.prune" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.prune(threshold): prune the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.push">
+<tt class="descname">push</tt><big>(</big><em>final=False</em>, <em>weights=False</em>, <em>labels=False</em><big>)</big> &rarr; transducer with<a class="headerlink" href="#fst._fst.LogVectorFst.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>weights or/and labels pushed to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.push_labels">
+<tt class="descname">push_labels</tt><big>(</big><em>final=False</em><big>)</big> &rarr; transducer with labels pushed<a class="headerlink" href="#fst._fst.LogVectorFst.push_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.push_weights">
+<tt class="descname">push_weights</tt><big>(</big><em>final=False</em><big>)</big> &rarr; transducer with weights pushed<a class="headerlink" href="#fst._fst.LogVectorFst.push_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.random_generate">
+<tt class="descname">random_generate</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.random_generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.relabel">
+<tt class="descname">relabel</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.relabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.relabel(imap={}, omap={}): relabel the symbols on the arcs of the transducer
+imap/omap: (int -&gt; int) or (str -&gt; str) symbol mappings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.remove_epsilon">
+<tt class="descname">remove_epsilon</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.remove_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.remove_epsilon(): remove the epsilon transitions from the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.remove_weights">
+<tt class="descname">remove_weights</tt><big>(</big><big>)</big> &rarr; transducer with weights removed<a class="headerlink" href="#fst._fst.LogVectorFst.remove_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.replace">
+<tt class="descname">replace</tt><big>(</big><em>label_fst_map</em>, <em>epsilon=False</em><big>)</big> &rarr; transducer with non-terminals replaced<a class="headerlink" href="#fst._fst.LogVectorFst.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>label_fst_map: non-terminals (str) -&gt; fst map
+epsilon: replace input label by epsilon?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.reverse">
+<tt class="descname">reverse</tt><big>(</big><big>)</big> &rarr; reversed transducer<a class="headerlink" href="#fst._fst.LogVectorFst.reverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.reweight">
+<tt class="descname">reweight</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.reweight" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.reweight(potentials, final=False): reweight arcs with given
+potentials in direction of initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.set_closure">
+<tt class="descname">set_closure</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.set_closure" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.set_closure(): modify to the Kleene closure of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.set_union">
+<tt class="descname">set_union</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.set_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.set_union(LogVectorFst other): modify to the union of the two transducers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.shortest_distance">
+<tt class="descname">shortest_distance</tt><big>(</big><em>bool reverse=False</em><big>)</big> &rarr; length of the shortest path<a class="headerlink" href="#fst._fst.LogVectorFst.shortest_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.shortest_path">
+<tt class="descname">shortest_path</tt><big>(</big><em>int n=1</em><big>)</big> &rarr; transducer containing the n shortest paths<a class="headerlink" href="#fst._fst.LogVectorFst.shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.start">
+<tt class="descname">start</tt><a class="headerlink" href="#fst._fst.LogVectorFst.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogVectorFst.states">
+<tt class="descname">states</tt><a class="headerlink" href="#fst._fst.LogVectorFst.states" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.times_map">
+<tt class="descname">times_map</tt><big>(</big><em>value</em><big>)</big> &rarr; transducer with weights equal to the original weights<a class="headerlink" href="#fst._fst.LogVectorFst.times_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>times the given value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.top_sort">
+<tt class="descname">top_sort</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.top_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.top_sort(): topologically sort the nodes of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.uniform_generate">
+<tt class="descname">uniform_generate</tt><big>(</big><em>n_path=1</em><big>)</big> &rarr; n_path random paths sampled uniformly<a class="headerlink" href="#fst._fst.LogVectorFst.uniform_generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.union">
+<tt class="descname">union</tt><big>(</big><em>LogVectorFst other</em><big>)</big> &rarr; union of the two transducers<a class="headerlink" href="#fst._fst.LogVectorFst.union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst | other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogVectorFst.write">
+<tt class="descname">write</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogVectorFst.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.write(filename): write the binary representation of the transducer in filename</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.LogWeight">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">LogWeight</tt><a class="headerlink" href="#fst._fst.LogWeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.LogWeight.ONE">
+<tt class="descname">ONE</tt><em class="property"> = LogWeight(0.0)</em><a class="headerlink" href="#fst._fst.LogWeight.ONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.LogWeight.ZERO">
+<tt class="descname">ZERO</tt><em class="property"> = LogWeight(inf)</em><a class="headerlink" href="#fst._fst.LogWeight.ZERO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.LogWeight.approx_equal">
+<tt class="descname">approx_equal</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.LogWeight.approx_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.StdArc">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">StdArc</tt><a class="headerlink" href="#fst._fst.StdArc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.StdArc.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.StdArc.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.TropicalWeight" title="fst._fst.TropicalWeight"><tt class="xref py py-class docutils literal"><span class="pre">TropicalWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdArc.ilabel">
+<tt class="descname">ilabel</tt><a class="headerlink" href="#fst._fst.StdArc.ilabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdArc.nextstate">
+<tt class="descname">nextstate</tt><a class="headerlink" href="#fst._fst.StdArc.nextstate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdArc.olabel">
+<tt class="descname">olabel</tt><a class="headerlink" href="#fst._fst.StdArc.olabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdArc.weight">
+<tt class="descname">weight</tt><a class="headerlink" href="#fst._fst.StdArc.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.StdState">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">StdState</tt><a class="headerlink" href="#fst._fst.StdState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.StdState.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.StdState.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.TropicalWeight" title="fst._fst.TropicalWeight"><tt class="xref py py-class docutils literal"><span class="pre">TropicalWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdState.arcs">
+<tt class="descname">arcs</tt><a class="headerlink" href="#fst._fst.StdState.arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>state.arcs: all the arcs starting from this state</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdState.final">
+<tt class="descname">final</tt><a class="headerlink" href="#fst._fst.StdState.final" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdState.initial">
+<tt class="descname">initial</tt><a class="headerlink" href="#fst._fst.StdState.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdState.stateid">
+<tt class="descname">stateid</tt><a class="headerlink" href="#fst._fst.StdState.stateid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.StdVectorFst">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">StdVectorFst</tt><a class="headerlink" href="#fst._fst.StdVectorFst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">fst._fst._Fst</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.SEMIRING">
+<tt class="descname">SEMIRING</tt><a class="headerlink" href="#fst._fst.StdVectorFst.SEMIRING" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#fst._fst.TropicalWeight" title="fst._fst.TropicalWeight"><tt class="xref py py-class docutils literal"><span class="pre">TropicalWeight</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.acceptor">
+<tt class="descname">acceptor</tt><a class="headerlink" href="#fst._fst.StdVectorFst.acceptor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.add_arc">
+<tt class="descname">add_arc</tt><big>(</big><em>int source</em>, <em>int dest</em>, <em>int ilabel</em>, <em>int olabel</em>, <em>weight=None</em><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.add_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>add an arc source-&gt;dest labeled with labels ilabel:olabel and weighted with weight</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.add_state">
+<tt class="descname">add_state</tt><big>(</big><big>)</big> &rarr; new state<a class="headerlink" href="#fst._fst.StdVectorFst.add_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.arc_sort_input">
+<tt class="descname">arc_sort_input</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.arc_sort_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.arc_sort_input(): sort the input arcs of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.arc_sort_output">
+<tt class="descname">arc_sort_output</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.arc_sort_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.arc_sort_output(): sort the output arcs of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.closure">
+<tt class="descname">closure</tt><big>(</big><big>)</big> &rarr; Kleene closure of the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.closure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.closure_plus">
+<tt class="descname">closure_plus</tt><big>(</big><big>)</big> &rarr; Kleen plus closure (X+ = XX*) of the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.closure_plus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.compose">
+<tt class="descname">compose</tt><big>(</big><em>StdVectorFst other</em><big>)</big> &rarr; composed transducer<a class="headerlink" href="#fst._fst.StdVectorFst.compose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst &gt;&gt; other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.concatenate">
+<tt class="descname">concatenate</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.concatenate(StdVectorFst other): modify to the concatenation
+of the two transducers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.concatenation">
+<tt class="descname">concatenation</tt><big>(</big><em>StdVectorFst other</em><big>)</big> &rarr; concatenation of the two transducers<a class="headerlink" href="#fst._fst.StdVectorFst.concatenation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst + other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.connect(): removes states and arcs that are not on successful paths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big> &rarr; a copy of the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.determinize">
+<tt class="descname">determinize</tt><big>(</big><big>)</big> &rarr; determinized transducer<a class="headerlink" href="#fst._fst.StdVectorFst.determinize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.difference">
+<tt class="descname">difference</tt><big>(</big><em>StdVectorFst other</em><big>)</big> &rarr; difference of the two transducers<a class="headerlink" href="#fst._fst.StdVectorFst.difference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst - other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.draw">
+<tt class="descname">draw</tt><big>(</big><em>SymbolTable isyms=None</em>, <em>SymbolTable osyms=None</em>, <em>SymbolTable ssyms=None</em><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>-&gt; dot format representation of the transducer</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.input_deterministic">
+<tt class="descname">input_deterministic</tt><a class="headerlink" href="#fst._fst.StdVectorFst.input_deterministic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.intersect">
+<tt class="descname">intersect</tt><big>(</big><em>StdVectorFst other</em><big>)</big> &rarr; intersection of the two acceptors<a class="headerlink" href="#fst._fst.StdVectorFst.intersect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst &amp; other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.inverse">
+<tt class="descname">inverse</tt><big>(</big><big>)</big> &rarr; inverse of the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.inverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.invert">
+<tt class="descname">invert</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.invert(): modify to the inverse of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.invert_weights">
+<tt class="descname">invert_weights</tt><big>(</big><big>)</big> &rarr; transducer with inverted weights<a class="headerlink" href="#fst._fst.StdVectorFst.invert_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.isyms">
+<tt class="descname">isyms</tt><a class="headerlink" href="#fst._fst.StdVectorFst.isyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.logprob_generate">
+<tt class="descname">logprob_generate</tt><big>(</big><em>n_path=1</em><big>)</big> &rarr; n_path random paths<a class="headerlink" href="#fst._fst.StdVectorFst.logprob_generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>sampled according to weights assumed to encode log probabilities</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.minimize">
+<tt class="descname">minimize</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.minimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.minimize(): minimize the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.num_arcs">
+<tt class="descname">num_arcs</tt><big>(</big><big>)</big> &rarr; total number of arcs in the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.num_arcs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.osyms">
+<tt class="descname">osyms</tt><a class="headerlink" href="#fst._fst.StdVectorFst.osyms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.output_deterministic">
+<tt class="descname">output_deterministic</tt><a class="headerlink" href="#fst._fst.StdVectorFst.output_deterministic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.paths">
+<tt class="descname">paths</tt><big>(</big><big>)</big> &rarr; iterator over all the paths in the transducer<a class="headerlink" href="#fst._fst.StdVectorFst.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.plus_map">
+<tt class="descname">plus_map</tt><big>(</big><em>value</em><big>)</big> &rarr; transducer with weights equal to the original weights<a class="headerlink" href="#fst._fst.StdVectorFst.plus_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>plus the given value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.project_input">
+<tt class="descname">project_input</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.project_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.project_input(): project the transducer on the input side</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.project_output">
+<tt class="descname">project_output</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.project_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.project_output(): project the transducer on the output side</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.prune">
+<tt class="descname">prune</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.prune" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.prune(threshold): prune the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.push">
+<tt class="descname">push</tt><big>(</big><em>final=False</em>, <em>weights=False</em>, <em>labels=False</em><big>)</big> &rarr; transducer with<a class="headerlink" href="#fst._fst.StdVectorFst.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>weights or/and labels pushed to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.push_labels">
+<tt class="descname">push_labels</tt><big>(</big><em>final=False</em><big>)</big> &rarr; transducer with labels pushed<a class="headerlink" href="#fst._fst.StdVectorFst.push_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.push_weights">
+<tt class="descname">push_weights</tt><big>(</big><em>final=False</em><big>)</big> &rarr; transducer with weights pushed<a class="headerlink" href="#fst._fst.StdVectorFst.push_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>to initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.random_generate">
+<tt class="descname">random_generate</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.random_generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.relabel">
+<tt class="descname">relabel</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.relabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.relabel(imap={}, omap={}): relabel the symbols on the arcs of the transducer
+imap/omap: (int -&gt; int) or (str -&gt; str) symbol mappings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.remove_epsilon">
+<tt class="descname">remove_epsilon</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.remove_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.remove_epsilon(): remove the epsilon transitions from the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.remove_weights">
+<tt class="descname">remove_weights</tt><big>(</big><big>)</big> &rarr; transducer with weights removed<a class="headerlink" href="#fst._fst.StdVectorFst.remove_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.replace">
+<tt class="descname">replace</tt><big>(</big><em>label_fst_map</em>, <em>epsilon=False</em><big>)</big> &rarr; transducer with non-terminals replaced<a class="headerlink" href="#fst._fst.StdVectorFst.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>label_fst_map: non-terminals (str) -&gt; fst map
+epsilon: replace input label by epsilon?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.reverse">
+<tt class="descname">reverse</tt><big>(</big><big>)</big> &rarr; reversed transducer<a class="headerlink" href="#fst._fst.StdVectorFst.reverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.reweight">
+<tt class="descname">reweight</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.reweight" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.reweight(potentials, final=False): reweight arcs with given
+potentials in direction of initial (default) or final state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.set_closure">
+<tt class="descname">set_closure</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.set_closure" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.set_closure(): modify to the Kleene closure of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.set_union">
+<tt class="descname">set_union</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.set_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.set_union(StdVectorFst other): modify to the union of the two transducers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.shortest_distance">
+<tt class="descname">shortest_distance</tt><big>(</big><em>bool reverse=False</em><big>)</big> &rarr; length of the shortest path<a class="headerlink" href="#fst._fst.StdVectorFst.shortest_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.shortest_path">
+<tt class="descname">shortest_path</tt><big>(</big><em>int n=1</em><big>)</big> &rarr; transducer containing the n shortest paths<a class="headerlink" href="#fst._fst.StdVectorFst.shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.start">
+<tt class="descname">start</tt><a class="headerlink" href="#fst._fst.StdVectorFst.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.StdVectorFst.states">
+<tt class="descname">states</tt><a class="headerlink" href="#fst._fst.StdVectorFst.states" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.times_map">
+<tt class="descname">times_map</tt><big>(</big><em>value</em><big>)</big> &rarr; transducer with weights equal to the original weights<a class="headerlink" href="#fst._fst.StdVectorFst.times_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>times the given value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.top_sort">
+<tt class="descname">top_sort</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.top_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.top_sort(): topologically sort the nodes of the transducer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.uniform_generate">
+<tt class="descname">uniform_generate</tt><big>(</big><em>n_path=1</em><big>)</big> &rarr; n_path random paths sampled uniformly<a class="headerlink" href="#fst._fst.StdVectorFst.uniform_generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.union">
+<tt class="descname">union</tt><big>(</big><em>StdVectorFst other</em><big>)</big> &rarr; union of the two transducers<a class="headerlink" href="#fst._fst.StdVectorFst.union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut: fst | other</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.StdVectorFst.write">
+<tt class="descname">write</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.StdVectorFst.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>fst.write(filename): write the binary representation of the transducer in filename</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.SymbolTable">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">SymbolTable</tt><a class="headerlink" href="#fst._fst.SymbolTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="fst._fst.SymbolTable.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big> &rarr; copy of the symbol table<a class="headerlink" href="#fst._fst.SymbolTable.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.SymbolTable.find">
+<tt class="descname">find</tt><big>(</big><em>int key</em><big>)</big> &rarr; decoded symbol<a class="headerlink" href="#fst._fst.SymbolTable.find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.SymbolTable.items">
+<tt class="descname">items</tt><big>(</big><big>)</big> &rarr; iterator over (symbol, value) pairs<a class="headerlink" href="#fst._fst.SymbolTable.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.SymbolTable.write">
+<tt class="descname">write</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.SymbolTable.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>table.write(filename): save the symbol table to filename</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fst._fst.TropicalWeight">
+<em class="property">class </em><tt class="descclassname">fst._fst.</tt><tt class="descname">TropicalWeight</tt><a class="headerlink" href="#fst._fst.TropicalWeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="fst._fst.TropicalWeight.ONE">
+<tt class="descname">ONE</tt><em class="property"> = TropicalWeight(0.0)</em><a class="headerlink" href="#fst._fst.TropicalWeight.ONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fst._fst.TropicalWeight.ZERO">
+<tt class="descname">ZERO</tt><em class="property"> = TropicalWeight(inf)</em><a class="headerlink" href="#fst._fst.TropicalWeight.ZERO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fst._fst.TropicalWeight.approx_equal">
+<tt class="descname">approx_equal</tt><big>(</big><big>)</big><a class="headerlink" href="#fst._fst.TropicalWeight.approx_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="fst._fst.read">
+<tt class="descclassname">fst._fst.</tt><tt class="descname">read</tt><big>(</big><em>filename</em><big>)</big> &rarr; transducer read from the binary file<a class="headerlink" href="#fst._fst.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect arc type (LogArc or TropicalArc) and produce specific transducer.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fst._fst.read_log">
+<tt class="descclassname">fst._fst.</tt><tt class="descname">read_log</tt><big>(</big><em>filename</em><big>)</big> &rarr; LogVectorFst read from the binary file<a class="headerlink" href="#fst._fst.read_log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fst._fst.read_std">
+<tt class="descclassname">fst._fst.</tt><tt class="descname">read_std</tt><big>(</big><em>filename</em><big>)</big> &rarr; StdVectorFst read from the binary file<a class="headerlink" href="#fst._fst.read_std" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fst._fst.read_symbols">
+<tt class="descclassname">fst._fst.</tt><tt class="descname">read_symbols</tt><big>(</big><em>filename</em><big>)</big> &rarr; SymbolTable read from the binary file<a class="headerlink" href="#fst._fst.read_symbols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/pyfst.png" alt="Logo"/>
+  </a>
+</p>
+<p>
+    pyfst wraps the <a href="http://www.openfst.org">OpenFst</a> library in Python,
+    making its excellent C++ API easily accessible for quick development and prototyping
+</p>
+
+<h3>Useful links</h3>
+<ul>
+    <li><a href="http://github.com/vchahun/pyfst">pyfst @ Github</a></li>
+    <li><a href="https://pypi.python.org/pypi/pyfst">pyfst @ PyPI</a></li>
+    <li><a href="http://www.openfst.org">OpenFst documentation</a></li>
+</ul>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API</a><ul>
+<li><a class="reference internal" href="#module-fst">Simple API</a></li>
+<li><a class="reference internal" href="#module-fst._fst">Advanced API</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2013, Victor Chahuneau.
+    </div>
+  </body>
+</html>
